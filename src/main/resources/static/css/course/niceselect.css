@@ -31,7 +31,7 @@
 }
 
 .nice-select:hover {
-    border-color: #3164F4;
+    border-color: olive;
 }
 
 .nice-select:active,
@@ -163,7 +163,7 @@
 }
 
 .nice-select .option:hover {
-    background-color: #238AC1;
+    background-color: olive;
     color: #fff;
 }
 

@@ -236,6 +236,6 @@ cursor:pointer;
 .nav-path.active,
 .nav-path:hover
 {
-	background: #6474cc;
+	background: olivedrab;
 	color: #FFFFFF;
 }

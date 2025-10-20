@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Submission Result</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Submission Result</h2>
+
+    <div th:if="${success}">
+        <div class="alert alert-success" th:text="${success}"></div>
+    </div>
+
+    <div>
+        <p><strong>Question:</strong></p>
+        <p th:text="${question.questionText}">Question text</p>
+    </div>
+
+    <div>
+        <p><strong>Plagiarism Score:</strong> <span th:text="${plagiarismScore}">0</span></p>
+    </div>
+
+    <div>
+        <a th:href="@{/my-courses}" class="btn btn-secondary">Back to My Courses</a>
+    </div>
+</div>
+</body>
+</html>

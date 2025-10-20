@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Generate Questions</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h2>Generate Questions for a Course</h2>
+
+    <form th:action="@{/generate-questions}" method="post">
+        <!-- Select Course -->
+        <div>
+            <label for="course">Select Course:</label>
+            <select id="course" name="courseId" required>
+                <option th:each="course : ${courses}"
+                        th:value="${course.id}"
+                        th:text="${course.courseName}">
+                </option>
+            </select>
+        </div>
+
+        <!-- Topic/Chapter Name -->
+        <div>
+            <label for="topic">Topic / Chapter:</label>
+            <input type="text" id="topic" name="topic" placeholder="Enter topic" required/>
+        </div>
+
+        <!-- Number of Questions -->
+        <div>
+            <label for="numQuestions">Number of Questions:</label>
+            <input type="number" id="numQuestions" name="numQuestions" min="1" required/>
+        </div>
+
+        <div style="margin-top:12px;">
+            <button type="submit" class="btn btn-primary">Generate & Assign Questions</button>
+        </div>
+    </form>
+
+    <div th:if="${success}" style="color: green; margin-top: 12px;" th:text="${success}"></div>
+    <div th:if="${error}" style="color: red; margin-top: 12px;" th:text="${error}"></div>
+</div>
+</body>
+</html>

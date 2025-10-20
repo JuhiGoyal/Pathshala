@@ -1,92 +1,109 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
 <head>
-    <meta charset="UTF-8"/>
-    <title>This is a home page</title>
+    <meta charset="UTF-8" />
+    <title>Home Page</title>
+    <script>
+        function submitForm(id) {
+            let form = document.getElementById('form-' + id);
+            if(form) form.submit();
+        }
+    </script>
 </head>
 <body>
-<section class="text-gray-600 body-font">
-    <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
-        <h1 class="text-3xl font-medium title-font text-gray-900 mb-4 w-full text-center">Manage Course</h1>
 
-        <div th:style="'padding-left: 30px;padding-right: 30px;display: flex;width: 100%;margin-top:1rem;margin-bottom:0px;padding: 2rem;margin-left: 80px;margin-right: 80px;--tw-bg-opacity: 1;border-radius: 0.5rem;flex-direction: column;background-color: rgb(243 244 246 / var(--tw-bg-opacity));'"class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
-            <form th:action="@{/submit-manage-course}" method="post" th:object="${course}">
-                <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Course Details</h2>
-                <input type="hidden" id="id" required th:field="*{id}" />
-                <input type="hidden" id="rating" required th:field="*{rating}" />
+<section class="banner courses archive section">
+    <span th:if="${message}">
+        <h1 style="text-align: center; padding-bottom:200px;color: #4B5563;" th:text="${message}"></h1>
+    </span>
+    <span th:if="${message == null}">
+        <h1 style="text-align: center;color: #4B5563;" th:text="${title}"></h1>
+    </span>
 
-                <div class="relative mb-4">
-                    <label for="courseName" class="leading-7 text-sm text-gray-600">Course Name</label>
-                    <input
-                            type="text"
-                            id="courseName"
-                            name="courseName"
-                            class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                            placeholder="Enter here"
-                            required
-                            th:field="*{courseName}"
-                    >
+    <div class="container">
+        <div class="row">
+            <th:block th:each="course : ${courseList}">
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="single-course">
+                        <div class="course-head overlay">
+                            <img th:src="@{'/image/courses/course' + ${course.imageId} + '.jpg'}" alt="#"/>
+
+                            <span th:if="${session.user == null}">
+                                <a th:href="@{/signup}" class="btn white primary" style="border-radius:4rem!important;">Register Now</a>
+                            </span>
+
+                            <span th:if="${session.user != null}">
+                                <div th:switch="${session.user.role}">
+                                    <!-- Admin -->
+                                    <span th:case="'admin'">
+                                        <form th:id="'form-' + ${course.id}" th:action="@{/init-manage-course}" method="post" th:object="${course}">
+                                            <input type="hidden" name="id" th:value="${course.id}" />
+                                            <input type="hidden" name="imageId" th:value="${course.imageId}" />
+                                            <input type="hidden" name="courseName" th:value="${course.courseName}" />
+                                            <input type="hidden" name="courseDescription" th:value="${course.courseDescription}" />
+                                            <input type="hidden" name="duration" th:value="${course.duration}" />
+                                            <input type="hidden" name="trainer" th:value="${course.trainer}" />
+                                            <input type="hidden" name="rating" th:value="${course.rating}" />
+                                            <input type="hidden" name="price" th:value="${course.price}" />
+                                            <a class="btn white primary" style="border-radius:4rem!important;" th:onclick="'submitForm(' + ${course.id} + ')'">Manage Course</a>
+                                        </form>
+                                    </span>
+
+                                    <!-- User -->
+                                    <span th:case="'user'">
+                                        <a th:if="${!course.isEnrolled}" th:href="@{/enroll/{id}(id=${course.id})}" class="btn before-enrolled white primary" style="border-radius:4rem!important;">Enroll Now</a>
+                                        <a th:if="${course.isEnrolled}" class="btn enrolled-btn white primary" style="border-radius:4rem!important;">Already Enrolled</a>
+                                    </span>
+                                </div>
+                            </span>
+                        </div>
+
+                        <div class="course-body">
+                            <div class="name-price">
+                                <div class="teacher-info">
+                                    <img th:src="@{'/image/teachers/author' + ${course.imageId} + '.jpg'}" alt="#"/>
+                                    <h4 class="title" th:text="${course.trainer}"></h4>
+                                </div>
+                                <span th:if="${course.price != 0}" class="price" th:text="'₹' + ${course.price} + '/-'"></span>
+                                <span th:if="${course.price == 0}" class="price">FREE</span>
+                            </div>
+
+                            <form th:id="'form-detail-' + ${course.id}" th:action="@{/init-course-detail}" method="post" th:object="${course}">
+                                <input type="hidden" name="id" th:value="${course.id}" />
+                                <input type="hidden" name="imageId" th:value="${course.imageId}" />
+                                <input type="hidden" name="courseName" th:value="${course.courseName}" />
+                                <input type="hidden" name="courseDescription" th:value="${course.courseDescription}" />
+                                <input type="hidden" name="duration" th:value="${course.duration}" />
+                                <input type="hidden" name="trainer" th:value="${course.trainer}" />
+                                <input type="hidden" name="rating" th:value="${course.rating}" />
+                                <input type="hidden" name="price" th:value="${course.price}" />
+                                <h4 class="c-title">
+                                    <a th:onclick="'submitForm(' + ${course.id} + ')' " th:text="${course.courseName}"></a>
+                                </h4>
+                            </form>
+
+                            <p th:text="${course.courseDescription}"></p>
+                        </div>
+
+                        <div class="course-meta">
+                            <ul class="rattings">
+                                <li><i class="fa fa-star" style="color: #6674CC!important;"></i></li>
+                                <li th:if="${course.rating >= 2}"><i class="fa fa-star" style="color: #6674CC!important;"></i></li>
+                                <li th:if="${course.rating >= 3}"><i class="fa fa-star" style="color: #6674CC!important;"></i></li>
+                                <li th:if="${course.rating >= 4}"><i class="fa fa-star" style="color: #6674CC!important;"></i></li>
+                                <li th:if="${course.rating >= 5}"><i class="fa fa-star" style="color: #6674CC!important;"></i></li>
+                                <li th:if="${course.rating == 2.5 or course.rating == 3.5 or course.rating == 4.5}"><i class="fa fa-star-half-o" style="color: #6674CC!important;"></i></li>
+                                <li class="point" th:text="${course.rating}"><span></span></li>
+                            </ul>
+                            <div class="course-info">
+                                <span><i class="fa fa-users"></i>2.4k Enrolled</span>
+                                <span><i class="fa fa-calendar-o"></i> <span th:text="${course.duration}">0</span> Days </span>
+                                <span><i class="fa fa-clock-o"></i>09:30 - 12:00</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="relative mb-4">
-                    <label for="courseDescription" class="leading-7 text-sm text-gray-600">Course Description</label>
-                    <textarea
-                            class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                            id="courseDescription"
-                            name="courseDescription"
-                            placeholder="Enter here"
-                            required
-                            th:maxlength="80"
-                            th:minlength="50"
-                            th:field="*{courseDescription}"
-                    ></textarea>
-                    <span id="textarea_feedback"></span>
-                </div>
-                <div class="relative mb-4">
-                    <label for="duration" class="leading-7 text-sm text-gray-600">Duration (Days)</label>
-                    <input
-                            type="text"
-                            id="duration"
-                            name="duration"
-                            class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                            placeholder="Enter here"
-                            required
-                            th:field="*{duration}"
-                    >
-                </div>
-                <div class="relative mb-4">
-                    <label for="trainer" class="leading-7 text-sm text-gray-600">Trainer Name</label>
-                    <input
-                            type="text"
-                            id="trainer"
-                            name="trainer"
-                            class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                            placeholder="Enter here"
-                            required
-                            th:field="*{trainer}"
-                    >
-                </div>
-                <div class="relative mb-4">
-                    <label for="price" class="leading-7 text-sm text-gray-600">Price</label>
-                    <input
-                            type="text"
-                            id="price"
-                            name="price"
-                            class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                            placeholder="Enter here"
-                            required
-                            th:field="*{price}"
-                    >
-                </div>
-                <div class="p-2 w-full">
-                    <button th:style="'border-radius:4rem!important;background-color: #6674CC;padding-left:2rem;padding-right:2rem;padding-top:0.5rem;padding-bottom:0.5rem;font-size:1.125;line-height:2.125;'" class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
-                    >
-                        Submit
-                    </button>
-                </div>
-            </form>
-            <div id="register-link" class="text-right">
-                <a th:style="'color:red !important;'"  th:href="@{/delete-course/{id}(id = ${course.id})}" class="delete-link">Delete Course</a>
-            </div>
+            </th:block>
         </div>
     </div>
 </section>

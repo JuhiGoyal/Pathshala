@@ -47,7 +47,7 @@
     font-family: 'Roboto Slab', serif;
     font-size: 18px;
     font-weight: 700;
-    color: #6474cc;
+    color: olivedrab;
     line-height: 0.75;
 }
 .ftr-footer_contact_info {
@@ -159,7 +159,7 @@
     transition: all 200ms ease;
 }
 .ftr-footer_logo_text span {
-    color: #14bdee;
+    color: olivedrab;
 }
 .ftr-footer_about_text {
     margin-top: 31px;
@@ -168,7 +168,7 @@
     color: #FFFFFF;
 }
 
-//social
+
 .ftr-footer_social {
     margin-top: 23px;
 }

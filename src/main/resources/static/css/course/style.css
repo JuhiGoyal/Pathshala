@@ -15,7 +15,7 @@ Version:	1.0
 }
 /* Header Inner */
 .header .header-inner {
-	background-image: url('images/bg-pattern1.png');
+	/*background-image: url('images/bg-pattern1.png');*/
 	background-repeat: repeat-y;
 	background-position: center;
 	position: relative;
@@ -524,10 +524,10 @@ Version:	1.0
 	right: 0;
 }
 .courses .price::before {
-	position: ;
+
 	position: absolute;
 	left: 0;
-	top: -;
+
 	content: "";
 	border-left: 15px solid #fff;
 	border-bottom: 15px solid transparent;
@@ -636,7 +636,7 @@ Version:	1.0
 	Features CSS
 =================================*/
 .features {
-	background-image: url('images/feature-bg.jpg');
+	/*background-image: url('images/feature-bg.jpg');*/
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -714,7 +714,7 @@ Version:	1.0
 	Register Today CSS
 =================================*/
 .register-today {
-	background-image: url('images/register-bg.jpg');
+	/*background-image: url('images/register-bg.jpg');*/
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -1375,7 +1375,7 @@ Version:	1.0
 	-webkit-transition: all 0.3s ease 0s;
 	-moz-transition: all 0.3s ease 0s;
 	transition: all 0.3s ease 0s;
-	-webkit-box-shadow: 0px 0px 10px rgba\(0, 0, 0, 0.10;
+	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.10);
 	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.10);
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.10);
 	margin: 0 10px 0 0;
@@ -1579,7 +1579,7 @@ Version:	1.0
 }
 /* Subscribe */
 .main-sidebar .subscribe {
-	background-image: url('images/feature1.jpg');
+	/*background-image: url('images/feature1.jpg');*/
 	background-position: center;
 	background-repeat: no-repeat;
 	padding: 30px;
